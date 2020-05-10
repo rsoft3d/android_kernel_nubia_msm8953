@@ -10,6 +10,8 @@
  * GNU General Public License for more details.
  *
  * A simple hotplugging driver optimized for Octa Core CPUs
+
+@2020 Modified by  Abdur Rofik,( rsoft3d@gmail.com) Fix for lineage OS 16.0
  */
 
 #include <linux/module.h>
@@ -470,7 +472,9 @@ static ssize_t thunderplug_ver_show(struct kobject *kobj, struct kobj_attribute 
 {
        return sprintf(buf, "ThunderPlug %u.%u", DRIVER_VERSION, DRIVER_SUBVER);
 }
-
+/*FIX RSOFT3D*/
+#undef VERIFY_OCTAL_PERMISSIONS
+#define VERIFY_OCTAL_PERMISSIONS(perms) (perms)
 static struct kobj_attribute thunderplug_ver_attribute =
        __ATTR(version,
                0444,
