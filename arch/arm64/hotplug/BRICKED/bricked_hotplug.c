@@ -8,7 +8,7 @@
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 as
  * published by the Free Software Foundation.
- *
+ *@2020 Modified by  Abdur Rofik,( rsoft3d@gmail.com) Fix for lineage OS 16.0
  */
 
 #include <linux/init.h>
@@ -16,6 +16,7 @@
 #include <linux/workqueue.h>
 #include <linux/completion.h>
 #include <linux/cpu.h>
+
 #include <linux/cpumask.h>
 #include <asm-generic/cputime.h>
 #include <linux/hrtimer.h>
@@ -153,12 +154,13 @@ static unsigned int get_slowest_cpu_rate(void) {
 
 	return slow_rate;
 }
-
+extern unsigned int get_rq_info(void);
 static int mp_decision(void) {
 	static bool first_call = true;
 	int new_state = MSM_MPDEC_IDLE;
 	int nr_cpu_online;
 	int index;
+
 	unsigned int rq_depth;
 	static cputime64_t total_time = 0;
 	static cputime64_t last_time;
@@ -177,7 +179,8 @@ static int mp_decision(void) {
 	}
 	total_time += this_time;
 
-	rq_depth = get_rq_info();
+/*	rq_depth = get_rq_info();*/
+
 	nr_cpu_online = num_online_cpus();
 
 	index = (nr_cpu_online - 1) * 2;
@@ -522,7 +525,7 @@ static ssize_t store_##file_name					\
 	TwTs_Threshold[arraypos] = input;				\
 	return count;							\
 }									\
-static DEVICE_ATTR(file_name, 644, show_##file_name, store_##file_name);
+static DEVICE_ATTR(file_name, 0644, show_##file_name, store_##file_name);
 define_one_twts(twts_threshold_0, 0);
 define_one_twts(twts_threshold_1, 1);
 define_one_twts(twts_threshold_2, 2);
@@ -551,7 +554,7 @@ static ssize_t store_##file_name					\
 	NwNs_Threshold[arraypos] = input;				\
 	return count;							\
 }									\
-static DEVICE_ATTR(file_name, 644, show_##file_name, store_##file_name);
+static DEVICE_ATTR(file_name, 0644, show_##file_name, store_##file_name);
 define_one_nwns(nwns_threshold_0, 0);
 define_one_nwns(nwns_threshold_1, 1);
 define_one_nwns(nwns_threshold_2, 2);
@@ -777,19 +780,19 @@ static ssize_t store_hotplug_suspend(struct device *dev,
 
 	return count;
 }
-
-static DEVICE_ATTR(startdelay, 644, show_startdelay, store_startdelay);
-static DEVICE_ATTR(delay, 644, show_delay, store_delay);
-static DEVICE_ATTR(down_lock_duration, 644, show_down_lock_duration, store_down_lock_duration);
-static DEVICE_ATTR(idle_freq, 644, show_idle_freq, store_idle_freq);
-static DEVICE_ATTR(min_cpus, 644, show_min_cpus_online, store_min_cpus_online);
-static DEVICE_ATTR(max_cpus, 644, show_max_cpus_online, store_max_cpus_online);
-static DEVICE_ATTR(min_cpus_online, 644, show_min_cpus_online, store_min_cpus_online);
-static DEVICE_ATTR(max_cpus_online, 644, show_max_cpus_online, store_max_cpus_online);
-static DEVICE_ATTR(max_cpus_online_susp, 644, show_max_cpus_online_susp, store_max_cpus_online_susp);
-static DEVICE_ATTR(suspend_defer_time, 644, show_suspend_defer_time, store_suspend_defer_time);
-static DEVICE_ATTR(enabled, 644, show_bricked_enabled, store_bricked_enabled);
-static DEVICE_ATTR(hotplug_suspend, 644, show_hotplug_suspend, store_hotplug_suspend);
+/*fix*/
+static DEVICE_ATTR(startdelay, 0644, show_startdelay, store_startdelay);
+static DEVICE_ATTR(delay, 0644, show_delay, store_delay);
+static DEVICE_ATTR(down_lock_duration, 0644, show_down_lock_duration, store_down_lock_duration);
+static DEVICE_ATTR(idle_freq, 0644, show_idle_freq, store_idle_freq);
+static DEVICE_ATTR(min_cpus, 0644, show_min_cpus_online, store_min_cpus_online);
+static DEVICE_ATTR(max_cpus, 0644, show_max_cpus_online, store_max_cpus_online);
+static DEVICE_ATTR(min_cpus_online, 0644, show_min_cpus_online, store_min_cpus_online);
+static DEVICE_ATTR(max_cpus_online, 0644, show_max_cpus_online, store_max_cpus_online);
+static DEVICE_ATTR(max_cpus_online_susp, 0644, show_max_cpus_online_susp, store_max_cpus_online_susp);
+static DEVICE_ATTR(suspend_defer_time, 0644, show_suspend_defer_time, store_suspend_defer_time);
+static DEVICE_ATTR(enabled, 0644, show_bricked_enabled, store_bricked_enabled);
+static DEVICE_ATTR(hotplug_suspend, 0644, show_hotplug_suspend, store_hotplug_suspend);
 
 static struct attribute *bricked_hotplug_attrs[] = {
 	&dev_attr_startdelay.attr,
