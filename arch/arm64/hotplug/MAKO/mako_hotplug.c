@@ -10,6 +10,8 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
+@2020 Modified by  Abdur Rofik,( rsoft3d@gmail.com) Fix for lineage OS 16.0
+
  * Simple no bullshit hot[un]plug driver for SMP
  */
 
@@ -233,7 +235,7 @@ static void __ref decide_hotplug_func(struct work_struct *work)
 	}
 
 	for (cpu = 0; cpu < 2; cpu++)
-		cur_load += cpufreq_quick_get_util(cpu);
+		//cur_load += cpufreq_quick_get_util(cpu);
 
 	cur_load >>= 1;
 
