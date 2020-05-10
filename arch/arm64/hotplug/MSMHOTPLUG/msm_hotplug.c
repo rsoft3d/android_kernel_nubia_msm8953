@@ -4,7 +4,8 @@
  * Copyright (c) 2013-2014, Fluxi <linflux@arcor.de>
  * Copyright (c) 2010-2014, The Linux Foundation. All rights reserved.
  *
- * This program is free software; you can redistribute it and/or modify
+ * @2020 Modified by  Abdur Rofik,( rsoft3d@gmail.com) Fix for lineage OS 16.0
+This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 as
  * published by the Free Software Foundation.
  *
@@ -24,7 +25,7 @@
 #include <linux/math64.h>
 #include <linux/kernel_stat.h>
 #include <linux/tick.h>
-
+#include <linux/rq_stats.h>
 #define MSM_HOTPLUG		"msm_hotplug"
 #define DEFAULT_UPDATE_RATE	HZ / 10
 #define START_DELAY		HZ * 20
@@ -36,6 +37,10 @@
 #define DEFAULT_MIN_CPUS_ONLINE	1
 #define DEFAULT_MAX_CPUS_ONLINE	NR_CPUS
 #define DEFAULT_FAST_LANE_LOAD	99
+
+
+
+
 
 static unsigned int debug = 0;
 module_param_named(debug_mask, debug, uint, 0644);
@@ -709,7 +714,7 @@ static ssize_t store_history_size(struct device *dev,
 	flush_workqueue(hotplug_wq);
 	cancel_delayed_work_sync(&hotplug_work);
 
-	memset(stats.load_hist, 0, sizeof(stats.load_hist));
+	memset(stats.load_hist, 0, sizeof(*stats.load_hist));
 	stats.hist_size = val;
 
 	reschedule_hotplug_work();
@@ -868,22 +873,22 @@ static ssize_t show_current_load(struct device *dev,
 	return sprintf(buf, "%u\n", stats.cur_avg_load);
 }
 
-static DEVICE_ATTR(down_lock_duration, 644, show_down_lock_duration,
+static DEVICE_ATTR(down_lock_duration, 0644, show_down_lock_duration,
 		   store_down_lock_duration);
-static DEVICE_ATTR(boost_lock_duration, 644, show_boost_lock_duration,
+static DEVICE_ATTR(boost_lock_duration, 0644, show_boost_lock_duration,
 		   store_boost_lock_duration);
-static DEVICE_ATTR(update_rates, 644, show_update_rates, store_update_rates);
-static DEVICE_ATTR(history_size, 644, show_history_size, store_history_size);
-static DEVICE_ATTR(min_cpus_online, 644, show_min_cpus_online,
+static DEVICE_ATTR(update_rates, 0644, show_update_rates, store_update_rates);
+static DEVICE_ATTR(history_size, 0644, show_history_size, store_history_size);
+static DEVICE_ATTR(min_cpus_online, 0644, show_min_cpus_online,
 		   store_min_cpus_online);
-static DEVICE_ATTR(max_cpus_online, 644, show_max_cpus_online,
+static DEVICE_ATTR(max_cpus_online, 0644, show_max_cpus_online,
 		   store_max_cpus_online);
-static DEVICE_ATTR(cpus_boosted, 644, show_cpus_boosted, store_cpus_boosted);
-static DEVICE_ATTR(offline_load, 644, show_offline_load, store_offline_load);
-static DEVICE_ATTR(fast_lane_load, 644, show_fast_lane_load,
+static DEVICE_ATTR(cpus_boosted, 0644, show_cpus_boosted, store_cpus_boosted);
+static DEVICE_ATTR(offline_load, 0644, show_offline_load, store_offline_load);
+static DEVICE_ATTR(fast_lane_load, 0644, show_fast_lane_load,
 		   store_fast_lane_load);
-static DEVICE_ATTR(io_is_busy, 644, show_io_is_busy, store_io_is_busy);
-static DEVICE_ATTR(current_load, 444, show_current_load, NULL);
+static DEVICE_ATTR(io_is_busy, 0644, show_io_is_busy, store_io_is_busy);
+static DEVICE_ATTR(current_load, 0444, show_current_load, NULL);
 
 static struct attribute *msm_hotplug_attrs[] = {
 	&dev_attr_down_lock_duration.attr,
