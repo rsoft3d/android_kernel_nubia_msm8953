@@ -71,7 +71,7 @@ core-$(CONFIG_INTELLI_PLUG) += arch/arm64/hotplug/INTELLIPLUG/
 core-$(CONFIG_MSM_SLEEPER) += arch/arm64/hotplug/MSMSLEEPER/
 core-$(CONFIG_THUNDERPLUG_CONTROL) += arch/arm64/hotplug/THUNDERPLUG/
 core-$(CONFIG_ZEN_DECISION) += arch/arm64/hotplug/ZENDECISION/
-
+core-$(CONFIG_AIO_HOTPLUG) += arch/arm64/hotplug/AIOHOTPLUG/
 libs-y		:= arch/arm64/lib/ $(libs-y)
 libs-$(CONFIG_EFI_STUB) += drivers/firmware/efi/libstub/
 

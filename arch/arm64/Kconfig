@@ -1160,3 +1160,4 @@ source "arch/arm64/hotplug/AUTOSMP/Kconfig"
 
 source "arch/arm64/hotplug/MAKO/Kconfig"
 
+source "arch/arm64/hotplug/AIOHOTPLUG/Kconfig"
