@@ -139,7 +139,7 @@ config DEFAULT_IOSCHED
 	default "fiops" if DEFAULT_FIOPS
 	default "zen" if DEFAULT_ZEN
 	default "noop" if DEFAULT_NOOP
-
+	default "maple" if DEFAULT_MAPLE
 endmenu
 
 endif
