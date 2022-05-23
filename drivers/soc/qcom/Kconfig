@@ -354,7 +354,7 @@ config MSM_RPM_STATS_LOG
           via a debugfs node.
 
 config MSM_RUN_QUEUE_STATS
-	bool "Enable collection and exporting of MSM Run Queue stats to userspace"
+	bool "RQSTATS Enable collection and exporting of MSM Run Queue stats to userspace"
 	help
 	 This option enables the driver to periodically collecting the statistics
 	 of kernel run queue information and calculate the load of the system.
@@ -938,6 +938,10 @@ config MSM_BG_GLINK
 	  between MSM and BG over glink transport protocol. This driver
 	  provides read and write interface via char device.This driver is
 	  used by the audio codec driver to interface with BG.
+
+config STATE_NOTIFIER
+	bool "State Notifier"
+     default y
 
 config WCD_DSP_GLINK
 	tristate "WCD DSP GLINK Driver"

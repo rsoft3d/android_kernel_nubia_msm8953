@@ -274,6 +274,11 @@ endif # NETWORK_FILESYSTEMS
 source "fs/nls/Kconfig"
 source "fs/dlm/Kconfig"
 
+config ASYNC_FSYNC
+	bool "asynchronous fsync faux"
+	default y
+
+
 config FILE_TABLE_DEBUG
 	bool "Enable FILE_TABLE_DEBUG"
 	help
